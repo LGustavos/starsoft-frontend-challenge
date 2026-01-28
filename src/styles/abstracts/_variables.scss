@@ -1,7 +1,3 @@
-// ==========================================================================
-// Design Tokens - Extraídos do Figma
-// ==========================================================================
-
 // Colors - Primary
 $color-primary: #ff8310;
 $color-primary-hover: #ff9a3d;
@@ -31,7 +27,13 @@ $color-warning: #f59e0b;
 $color-eth: #627eea;
 
 // Typography - Font Family
-$font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+$font-family:
+  "Poppins",
+  -apple-system,
+  BlinkMacSystemFont,
+  "Segoe UI",
+  Roboto,
+  sans-serif;
 
 // Typography - Font Weights
 $font-weight-regular: 400;

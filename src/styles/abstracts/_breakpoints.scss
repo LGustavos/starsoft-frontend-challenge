@@ -1,14 +1,11 @@
-// ==========================================================================
-// Breakpoints - Mobile First
-// ==========================================================================
 @use "sass:map";
 
 $breakpoints: (
-  'sm': 640px,
-  'md': 768px,
-  'lg': 1024px,
-  'xl': 1280px,
-  '2xl': 1536px,
+  "sm": 640px,
+  "md": 768px,
+  "lg": 1024px,
+  "xl": 1280px,
+  "2xl": 1536px
 );
 
 // Mixin para breakpoints (mobile-first)
@@ -22,7 +19,7 @@ $breakpoints: (
   }
 }
 
-// Mixin para breakpoints (desktop-first) - uso raro
+// Mixin para breakpoints (desktop-first)
 @mixin respond-down($breakpoint) {
   @if map.has-key($breakpoints, $breakpoint) {
     @media (max-width: #{map.get($breakpoints, $breakpoint) - 1px}) {

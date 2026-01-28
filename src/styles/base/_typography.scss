@@ -1,14 +1,10 @@
-@use '../abstracts' as *;
-
-// ==========================================================================
-// Typography
-// ==========================================================================
+@use "../abstracts" as *;
 
 h1 {
   font-size: $font-size-3xl;
   font-weight: $font-weight-bold;
 
-  @include respond-to('md') {
+  @include respond-to("md") {
     font-size: calc($font-size-3xl * 1.25);
   }
 }
@@ -17,7 +13,7 @@ h2 {
   font-size: $font-size-2xl;
   font-weight: $font-weight-semibold;
 
-  @include respond-to('md') {
+  @include respond-to("md") {
     font-size: calc($font-size-2xl * 1.15);
   }
 }
