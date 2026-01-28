@@ -262,26 +262,228 @@ npx playwright test --project=chromium
 
 ## Arquitetura
 
-### Providers
-A aplicação utiliza uma arquitetura de providers para injeção de dependências:
+### Visão Geral
 
 ```
-RootLayout
-└── StoreProvider (Redux)
-    └── QueryProvider (TanStack Query)
-        └── HydrationBoundary
-            └── App Components
+┌─────────────────────────────────────────────────────────────────┐
+│                         Next.js App Router                       │
+├─────────────────────────────────────────────────────────────────┤
+│  RootLayout (Server Component)                                   │
+│  └── StoreProvider (Redux)                                       │
+│      └── QueryProvider (TanStack Query)                          │
+│          └── HydrationBoundary                                   │
+│              └── Page Components                                 │
+├─────────────────────────────────────────────────────────────────┤
+│                      State Management                            │
+│  ┌──────────────────────┐    ┌──────────────────────┐          │
+│  │   Redux Toolkit      │    │   TanStack Query     │          │
+│  │   (Client State)     │    │   (Server State)     │          │
+│  │   - Cart items       │    │   - NFT list         │          │
+│  │   - Cart UI state    │    │   - NFT details      │          │
+│  │   - localStorage     │    │   - Cache & refetch  │          │
+│  └──────────────────────┘    └──────────────────────┘          │
+├─────────────────────────────────────────────────────────────────┤
+│                         API Layer                                │
+│  ┌──────────────────────────────────────────────────────────┐   │
+│  │  /lib/api/client.ts - Generic fetch wrapper              │   │
+│  │  Base URL: https://api-challenge.starsoft.games/api/v1   │   │
+│  └──────────────────────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────┘
 ```
+
+### Estrutura de Diretórios Detalhada
+
+```
+src/
+├── app/                          # Next.js App Router
+│   ├── layout.tsx               # Layout raiz com providers
+│   ├── page.tsx                 # Home - Listagem de NFTs
+│   ├── loading.tsx              # Fallback de loading
+│   ├── not-found.tsx            # Página 404
+│   └── nft/[id]/                # Rota dinâmica
+│       └── page.tsx             # Detalhes do NFT (SSG + ISR)
+│
+├── components/
+│   ├── ui/                      # Componentes atômicos
+│   │   ├── Button/              # Botão com variantes
+│   │   └── EthIcon/             # Ícone Ethereum SVG
+│   ├── layout/                  # Estrutura da página
+│   │   ├── Header/              # Navegação + contador carrinho
+│   │   └── Footer/              # Rodapé
+│   ├── nft/                     # Domínio NFT
+│   │   ├── NFTCard/             # Card individual com animações
+│   │   ├── NFTGrid/             # Grid com infinite scroll
+│   │   ├── NFTSkeleton/         # Skeleton loader
+│   │   └── NFTDetail/           # Página de detalhes
+│   ├── cart/                    # Domínio Carrinho
+│   │   ├── CartDrawer/          # Drawer lateral animado
+│   │   └── CartItem/            # Item do carrinho
+│   └── animations/              # Componentes de animação
+│
+├── hooks/                       # Hooks customizados
+│   ├── useCart.ts              # Gerenciamento do carrinho
+│   ├── useNFTs.ts              # Infinite query para lista
+│   └── useNFT.ts               # Query individual por ID
+│
+├── lib/
+│   ├── api/                    # Cliente HTTP
+│   │   ├── client.ts           # Fetch wrapper genérico
+│   │   └── config.ts           # Configuração de URL
+│   ├── query/                  # React Query
+│   │   ├── queryClient.ts      # Configuração SSR-safe
+│   │   ├── QueryProvider.tsx   # Provider wrapper
+│   │   └── options/
+│   │       └── nftOptions.ts   # Query keys factory
+│   ├── store/                  # Redux
+│   │   ├── store.ts            # Store + middleware localStorage
+│   │   ├── StoreProvider.tsx   # Provider wrapper
+│   │   ├── hooks.ts            # Hooks tipados
+│   │   └── slices/
+│   │       └── cartSlice.ts    # Reducer + selectors
+│   └── utils/                  # Utilitários
+│       ├── cn.ts               # Classnames helper
+│       └── formatters.ts       # Formatação de preços
+│
+├── styles/                     # Estilos globais
+│   ├── main.scss              # Entry point
+│   ├── base/                  # Reset e tipografia
+│   │   ├── _reset.scss
+│   │   └── _typography.scss
+│   └── abstracts/             # Design tokens
+│       ├── _variables.scss    # Cores, espaçamentos, etc.
+│       ├── _mixins.scss       # Mixins SCSS
+│       └── _breakpoints.scss  # Media queries
+│
+└── types/                     # Definições TypeScript
+    ├── nft.ts                # Tipos NFT e API
+    └── cart.ts               # Tipos do carrinho
+```
+
+### Gerenciamento de Estado
+
+#### Redux Toolkit (Estado do Cliente)
+
+```typescript
+// Store Structure
+{
+  cart: {
+    items: CartItem[],    // NFT + quantidade
+    isOpen: boolean       // Visibilidade do drawer
+  }
+}
+```
+
+**Actions disponíveis:**
+| Action | Descrição |
+|--------|-----------|
+| `addItem(nft)` | Adiciona ou incrementa NFT |
+| `removeItem(id)` | Remove NFT do carrinho |
+| `incrementQuantity(id)` | Incrementa quantidade |
+| `decrementQuantity(id)` | Decrementa quantidade |
+| `clearCart()` | Limpa o carrinho |
+| `toggleCart()` | Alterna visibilidade do drawer |
+
+**Selectors otimizados:**
+| Selector | Retorno |
+|----------|---------|
+| `selectCartItems` | Lista de itens |
+| `selectCartTotal` | Total calculado |
+| `selectCartCount` | Quantidade total |
+| `selectIsCartOpen` | Estado do drawer |
+| `selectIsItemInCart(id)` | Verifica se NFT está no carrinho |
+
+#### TanStack Query (Estado do Servidor)
+
+```typescript
+// Query Keys Factory
+nftKeys = {
+  all: ['nfts'],
+  lists: () => ['nfts', 'list'],
+  list: (filters) => ['nfts', 'list', filters],
+  details: () => ['nfts', 'detail'],
+  detail: (id) => ['nfts', 'detail', id]
+}
+```
+
+**Configuração:**
+- `staleTime`: 60 segundos
+- `gcTime`: 5 minutos
+- `retry`: 2 tentativas
+- `refetchOnWindowFocus`: desabilitado
 
 ### Custom Hooks
-| Hook | Responsabilidade |
-|------|------------------|
-| `useCart` | Gerenciamento do carrinho (add, remove, quantity) |
-| `useNFTs` | Listagem com infinite query e paginação |
-| `useNFT` | Fetch de NFT individual por ID |
+
+| Hook | Responsabilidade | Retorno |
+|------|------------------|---------|
+| `useCart()` | Gerenciamento completo do carrinho | `{ items, total, count, addItem, removeItem, ... }` |
+| `useNFTs(rows)` | Lista com infinite scroll | `{ data, fetchNextPage, hasNextPage, isLoading }` |
+| `useNFT(id)` | Fetch de NFT individual | `{ data, isLoading, error }` |
 
 ### Middleware de Persistência
-O estado do carrinho é automaticamente sincronizado com localStorage através de um middleware Redux customizado, garantindo que os itens do carrinho persistam entre sessões.
+
+O estado do carrinho é automaticamente sincronizado com `localStorage` através de um middleware Redux customizado:
+
+```typescript
+// Chave versionada para migrações futuras
+const STORAGE_KEY = 'nft-marketplace:cart:v2';
+
+// Dados persistidos
+{
+  items: CartItem[],
+  updatedAt: string  // ISO timestamp
+}
+```
+
+### Padrões de Componentes
+
+#### 1. Memoização
+```typescript
+// NFTCard é memoizado para evitar re-renders desnecessários
+export const NFTCard = memo(function NFTCard({ nft, index }) {
+  // ...
+});
+```
+
+#### 2. Portal para Modais
+```typescript
+// CartDrawer renderiza no document.body
+return createPortal(<DrawerContent />, document.body);
+```
+
+#### 3. Animações com Framer Motion
+- Entrada escalonada nos cards
+- Drawer com spring physics
+- AnimatePresence para remoção de itens
+
+#### 4. Otimização de Imagens
+```typescript
+<Image
+  src={nft.image}
+  fill
+  sizes="(max-width: 640px) 100vw, 25vw"
+  priority={index < 4}  // Prioriza primeiras 4 imagens
+/>
+```
+
+### Fluxo de Dados
+
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   API       │────▶│  React      │────▶│  Components │
+│   Server    │     │  Query      │     │  (UI)       │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          │
+                    Cache Layer
+                    (staleTime: 60s)
+
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│   User      │────▶│   Redux     │────▶│  Components │
+│   Action    │     │   Store     │     │  (UI)       │
+└─────────────┘     └─────────────┘     └─────────────┘
+                          │
+                    localStorage
+                    (persistência)
+```
 
 ## Melhorias Futuras
 
