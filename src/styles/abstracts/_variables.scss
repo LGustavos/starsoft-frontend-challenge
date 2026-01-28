@@ -1,0 +1,93 @@
+// ==========================================================================
+// Design Tokens - Extraídos do Figma
+// ==========================================================================
+
+// Colors - Primary
+$color-primary: #ff8310;
+$color-primary-hover: #ff9a3d;
+$color-primary-active: #e67400;
+
+// Colors - Backgrounds
+$color-background: #232323;
+$color-surface: #191a20;
+$color-surface-hover: #1e1f26;
+$color-surface-light: #2a2b32;
+
+// Colors - Borders
+$color-border: #393939;
+$color-border-light: #4a4a4a;
+
+// Colors - Text
+$color-text-primary: #ffffff;
+$color-text-secondary: #cccccc;
+$color-text-muted: #808080;
+
+// Colors - Semantic
+$color-success: #22c55e;
+$color-error: #ef4444;
+$color-warning: #f59e0b;
+
+// Colors - Ethereum
+$color-eth: #627eea;
+
+// Typography - Font Family
+$font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+// Typography - Font Weights
+$font-weight-regular: 400;
+$font-weight-medium: 500;
+$font-weight-semibold: 600;
+$font-weight-bold: 700;
+
+// Typography - Font Sizes
+$font-size-xs: 0.75rem; // 12px
+$font-size-sm: 0.875rem; // 14px
+$font-size-base: 1rem; // 16px
+$font-size-lg: 1.125rem; // 18px
+$font-size-xl: 1.25rem; // 20px
+$font-size-2xl: 1.5rem; // 24px
+$font-size-3xl: 2rem; // 32px
+
+// Spacing (8px grid system)
+$spacing-1: 0.25rem; // 4px
+$spacing-2: 0.5rem; // 8px
+$spacing-3: 0.75rem; // 12px
+$spacing-4: 1rem; // 16px
+$spacing-5: 1.25rem; // 20px
+$spacing-6: 1.5rem; // 24px
+$spacing-8: 2rem; // 32px
+$spacing-10: 2.5rem; // 40px
+$spacing-12: 3rem; // 48px
+
+// Border Radius
+$border-radius-sm: 4px;
+$border-radius: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+$shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.3);
+$shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+$shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-normal: 300ms ease;
+$transition-slow: 500ms ease;
+
+// Z-Index
+$z-index-dropdown: 100;
+$z-index-sticky: 200;
+$z-index-fixed: 300;
+$z-index-modal-backdrop: 400;
+$z-index-modal: 500;
+$z-index-popover: 600;
+$z-index-tooltip: 700;
+
+// Layout
+$header-height: 80px;
+$container-max-width: 1440px;
+$grid-gap: $spacing-4;
+$section-spacing: 189px;
