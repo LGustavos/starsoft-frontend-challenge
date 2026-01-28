@@ -18,7 +18,6 @@ interface RequestOptions extends RequestInit {
 export async function apiClient<T>(endpoint: string, options?: RequestOptions): Promise<T> {
   const { params, ...fetchOptions } = options || {};
 
-  // Build URL with query params
   let url = `${API_BASE_URL}${endpoint}`;
 
   if (params) {
@@ -49,7 +48,6 @@ export async function apiClient<T>(endpoint: string, options?: RequestOptions): 
   return response.json();
 }
 
-// Convenience methods
 export const api = {
   get: <T>(endpoint: string, params?: Record<string, string | number | undefined>) =>
     apiClient<T>(endpoint, { method: 'GET', params }),

@@ -14,7 +14,6 @@ interface PageProps {
   params: Promise<{ id: string }>;
 }
 
-// Generate static paths at build time (SSG)
 export async function generateStaticParams() {
   try {
     const response = await api.get<NFTListResponse>('/products', {
@@ -26,12 +25,10 @@ export async function generateStaticParams() {
       id: String(nft.id),
     }));
   } catch {
-    // Return empty array if API is down - will use ISR
     return [];
   }
 }
 
-// Dynamic metadata for SEO
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { id } = await params;
 
@@ -78,7 +75,6 @@ export default async function NFTPage({ params }: PageProps) {
   );
 }
 
-// Simple skeleton for suspense fallback
 function NFTDetailSkeleton() {
   return (
     <div className={styles.skeleton}>
@@ -92,5 +88,4 @@ function NFTDetailSkeleton() {
   );
 }
 
-// Enable ISR with revalidation every 60 seconds
 export const revalidate = 60;

@@ -19,7 +19,6 @@ const mockNFT2 = {
   price: '2.0',
 };
 
-// Mock createPortal to render in the same container
 jest.mock('react-dom', () => ({
   ...jest.requireActual('react-dom'),
   createPortal: (node: React.ReactNode) => node,
@@ -84,9 +83,7 @@ describe('CartDrawer', () => {
         store.dispatch(openCart());
       });
 
-      // Total label should be displayed
       expect(screen.getByText('TOTAL')).toBeInTheDocument();
-      // Multiple ETH texts exist (in items and total), just verify at least one exists
       const ethTexts = screen.getAllByText(/ETH/);
       expect(ethTexts.length).toBeGreaterThan(0);
     });
@@ -105,7 +102,6 @@ describe('CartDrawer', () => {
 
       await act(async () => {
         fireEvent.click(checkoutButton);
-        // Small delay to let state update
         jest.advanceTimersByTime(100);
       });
 
@@ -127,12 +123,10 @@ describe('CartDrawer', () => {
         fireEvent.click(checkoutButton);
       });
 
-      // Fast-forward past the loading time (2000ms)
       await act(async () => {
         jest.advanceTimersByTime(2000);
       });
 
-      // There will be multiple elements with "Compra finalizada!" (button and overlay)
       const successElements = screen.getAllByText('Compra finalizada!');
       expect(successElements.length).toBeGreaterThanOrEqual(1);
     });
@@ -155,7 +149,6 @@ describe('CartDrawer', () => {
         jest.advanceTimersByTime(2000);
       });
 
-      // Check for the success overlay text
       const successTexts = screen.getAllByText('Compra finalizada!');
       expect(successTexts.length).toBeGreaterThanOrEqual(1);
     });
@@ -174,17 +167,14 @@ describe('CartDrawer', () => {
         fireEvent.click(checkoutButton);
       });
 
-      // Fast-forward past loading (2000ms)
       await act(async () => {
         jest.advanceTimersByTime(2000);
       });
 
-      // Fast-forward past success display (2500ms)
       await act(async () => {
         jest.advanceTimersByTime(2500);
       });
 
-      // Cart should be cleared
       const state = store.getState();
       expect(state.cart.items).toHaveLength(0);
       expect(state.cart.isOpen).toBe(false);
@@ -260,7 +250,6 @@ describe('CartDrawer', () => {
         store.dispatch(openCart());
       });
 
-      // Find the overlay by its aria-hidden attribute
       const overlay = document.querySelector('[aria-hidden="true"]');
       expect(overlay).toBeInTheDocument();
 

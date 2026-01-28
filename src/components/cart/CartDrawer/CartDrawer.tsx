@@ -26,7 +26,6 @@ const drawerVariants = {
   open: { x: 0 },
 };
 
-// Hoisted static SVG element (rendering-hoist-jsx)
 const emptyCartIcon = (
   <svg
     width="64"
@@ -64,7 +63,6 @@ export function CartDrawer() {
   const { items, total, isOpen, close, clear } = useCart();
   const [checkoutStatus, setCheckoutStatus] = useState<CheckoutStatus>('idle');
 
-  // Store close function in ref for stable event handler (advanced-event-handler-refs)
   const closeRef = useRef(close);
   closeRef.current = close;
 
@@ -82,14 +80,12 @@ export function CartDrawer() {
     }, SUCCESS_DISPLAY_MS);
   };
 
-  // Reset checkout status when drawer closes
   useEffect(() => {
     if (!isOpen) {
       setCheckoutStatus('idle');
     }
   }, [isOpen]);
 
-  // Close on Escape key - stable handler that doesn't re-subscribe
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -99,9 +95,8 @@ export function CartDrawer() {
 
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, []); // Empty deps - never re-subscribes
+  }, []);
 
-  // Prevent body scroll when open
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
@@ -113,7 +108,6 @@ export function CartDrawer() {
     };
   }, [isOpen]);
 
-  // Don't render on server
   if (typeof window === 'undefined') return null;
 
   return createPortal(

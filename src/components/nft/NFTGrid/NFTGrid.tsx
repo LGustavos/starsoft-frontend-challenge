@@ -60,7 +60,6 @@ export function NFTGrid() {
         </AnimatePresence>
       </div>
 
-      {/* Pagination progress and load more button */}
       <div className={styles.loadMore}>
         <div className={styles.progressContainer}>
           <div
@@ -73,7 +72,6 @@ export function NFTGrid() {
           onClick={() => fetchNextPage()}
           disabled={isFetchingNextPage || !hasNextPage}
         >
-          {/* Explicit ternary for conditional rendering (rendering-conditional-render) */}
           {!hasNextPage
             ? 'Você já viu tudo'
             : isFetchingNextPage

@@ -18,13 +18,10 @@ describe('NFTSkeleton', () => {
   it('renders all skeleton elements', () => {
     const { container } = render(<NFTSkeleton />);
 
-    // Check for image skeleton
     expect(container.querySelector('[class*="image"]')).toBeInTheDocument();
 
-    // Check for content skeleton
     expect(container.querySelector('[class*="content"]')).toBeInTheDocument();
 
-    // Check for title skeleton
     expect(container.querySelector('[class*="title"]')).toBeInTheDocument();
   });
 });

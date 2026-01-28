@@ -72,7 +72,6 @@ const cartSlice = createSlice({
   },
 });
 
-// Actions
 export const {
   addItem,
   removeItem,
@@ -85,7 +84,6 @@ export const {
   closeCart,
 } = cartSlice.actions;
 
-// Selectors
 export const selectCartItems = (state: { cart: CartState }) => state.cart.items;
 
 export const selectCartTotal = (state: { cart: CartState }) =>

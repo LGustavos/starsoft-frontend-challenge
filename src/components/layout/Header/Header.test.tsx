@@ -36,7 +36,6 @@ describe('Header', () => {
   it('shows cart count as 0 initially', async () => {
     renderWithProviders(<Header />);
 
-    // Wait for hydration
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
@@ -48,12 +47,10 @@ describe('Header', () => {
   it('updates cart count when items are added', async () => {
     const { store } = renderWithProviders(<Header />);
 
-    // Wait for hydration
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    // Add item to cart
     act(() => {
       store.dispatch(addItem(mockNFT));
     });
@@ -65,12 +62,10 @@ describe('Header', () => {
   it('shows 99+ when cart has more than 99 items', async () => {
     const { store } = renderWithProviders(<Header />);
 
-    // Wait for hydration
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    // Add 100 items to cart
     act(() => {
       for (let i = 0; i < 100; i++) {
         store.dispatch(addItem({ ...mockNFT, id: i }));
@@ -84,12 +79,10 @@ describe('Header', () => {
   it('has accessible label for cart button', async () => {
     const { store } = renderWithProviders(<Header />);
 
-    // Wait for hydration
     await act(async () => {
       await new Promise((resolve) => setTimeout(resolve, 0));
     });
 
-    // Add item
     act(() => {
       store.dispatch(addItem(mockNFT));
     });

@@ -48,7 +48,6 @@ describe('NFTCard', () => {
   it('changes button text to "Adicionado" after adding to cart', () => {
     const { store } = renderWithProviders(<NFTCard nft={mockNFT} />);
 
-    // Verify cart is initially empty
     expect(store.getState().cart.items).toHaveLength(0);
 
     const addButton = screen.getByRole('button');
@@ -62,10 +61,8 @@ describe('NFTCard', () => {
   it('increments quantity when clicking add button multiple times', () => {
     const { store } = renderWithProviders(<NFTCard nft={mockNFT} />);
 
-    // Get the button
     const button = screen.getByRole('button');
 
-    // Click three times
     fireEvent.click(button);
     fireEvent.click(button);
     fireEvent.click(button);
@@ -77,7 +74,6 @@ describe('NFTCard', () => {
   it('has accessible button label', () => {
     const { store } = renderWithProviders(<NFTCard nft={mockNFT} />);
 
-    // Verify cart is initially empty
     expect(store.getState().cart.items).toHaveLength(0);
 
     const button = screen.getByRole('button');
