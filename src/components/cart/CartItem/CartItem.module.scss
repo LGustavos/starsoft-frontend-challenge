@@ -1,0 +1,198 @@
+@use '@/styles/abstracts' as *;
+
+.item {
+  display: flex;
+  gap: $spacing-3;
+  padding: $spacing-3;
+  background-color: #2b2b2b;
+  border-radius: $border-radius;
+
+  @include respond-to('md') {
+    gap: $spacing-4;
+    padding: $spacing-4;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border-radius: $border-radius;
+  overflow: hidden;
+  flex-shrink: 0;
+
+  @include respond-to('md') {
+    width: 100px;
+    height: 100px;
+  }
+}
+
+.image {
+  object-fit: cover;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-1;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 140%;
+  color: $color-text-primary;
+  text-transform: uppercase;
+  @include truncate-text(1);
+
+  @include respond-to('md') {
+    font-size: 18px;
+  }
+}
+
+.description {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.4;
+  color: $color-text-secondary;
+  margin: 0;
+  @include truncate-text(1);
+
+  @include respond-to('md') {
+    font-size: 12px;
+  }
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  margin-top: $spacing-1;
+
+  @include respond-to('md') {
+    gap: $spacing-2;
+  }
+}
+
+.ethIcon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+
+  @include respond-to('md') {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.price {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 110%;
+  color: $color-text-primary;
+
+  @include respond-to('md') {
+    font-size: 20px;
+  }
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: $spacing-2;
+}
+
+.quantityControls {
+  display: flex;
+  align-items: center;
+  background-color: #232323;
+  border-radius: $border-radius;
+  overflow: hidden;
+}
+
+.quantityButton {
+  @include flex-center;
+  width: 32px;
+  height: 30px;
+  background-color: transparent;
+  border: none;
+  color: $color-text-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  @include respond-to('md') {
+    width: 40px;
+    height: 36px;
+    font-size: $font-size-lg;
+  }
+
+  &:hover {
+    background-color: #333333;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: -2px;
+  }
+}
+
+.quantity {
+  min-width: 32px;
+  text-align: center;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+
+  @include respond-to('md') {
+    min-width: 40px;
+    font-size: $font-size-base;
+  }
+}
+
+.removeButton {
+  @include flex-center;
+  width: 34px;
+  height: 34px;
+  background-color: $color-primary;
+  border-radius: $border-radius-full;
+  border: none;
+  color: $color-text-primary;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  @include respond-to('md') {
+    width: 40px;
+    height: 40px;
+  }
+
+  &:hover {
+    background-color: $color-primary-hover;
+    transform: scale(1.05);
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-text-primary;
+    outline-offset: 2px;
+  }
+
+  svg {
+    width: 16px;
+    height: 16px;
+
+    @include respond-to('md') {
+      width: 20px;
+      height: 20px;
+    }
+  }
+}
