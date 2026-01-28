@@ -1,131 +1,301 @@
-# Teste para Desenvolvedor(a) Front-End Next.js
+# NFT Marketplace
 
-## Introdução
+Um marketplace de NFTs responsivo e interativo desenvolvido com Next.js, TypeScript, Redux Toolkit e TanStack Query.
 
-Bem-vindo(a) ao processo seletivo para a posição de **Desenvolvedor(a) Front-End** em nossa equipe! Este teste tem como objetivo avaliar suas habilidades técnicas em **Next.js**, **React** e as demais tecnologias mencionadas na descrição da vaga.
+## Demonstração
 
-## Instruções
+![NFT Marketplace Preview](./docs/preview.png)
 
-- Faça um **fork** deste repositório para o seu GitHub pessoal.
-- Desenvolva a aplicação conforme as especificações abaixo, seguindo as **melhores práticas de desenvolvimento**.
-- Após a conclusão, envie o link do seu repositório para avaliação.
-- Sinta-se à vontade para adicionar qualquer documentação ou comentários que julgar necessário.
+## Funcionalidades
 
-## Desafio
+### Carrinho de Compras
+- Adicionar/remover itens com feedback visual
+- Controle de quantidade (incrementar/decrementar)
+- Cálculo automático do total
+- Contador de itens no header (com limite 99+)
+- Persistência no localStorage via middleware Redux
+- Drawer animado com Framer Motion
+- **Checkout flow** com loading state e feedback de sucesso
 
-### Contexto
+### Listagem de NFTs
+- **Infinite scroll** com Intersection Observer
+- Barra de progresso de carregamento
+- Skeleton loaders durante fetch
+- Estados de erro com retry automático
+- Cache inteligente com TanStack Query
 
-Você foi designado para desenvolver a interface de um **marketplace de NFTs** (Non-Fungible Tokens) com funcionalidades de carrinho de compras. O objetivo é criar uma aplicação web responsiva e interativa que proporcione uma ótima experiência ao usuário, utilizando **Next.js** como framework principal.
+### Página de Detalhes
+- Renderização estática (SSG) para performance
+- Metadados dinâmicos para SEO e Open Graph
+- Revalidação incremental (ISR 60s)
+- Suspense boundaries com fallback
 
-### Requisitos
+### UI/UX
+- **Animações suaves** com Framer Motion (fade-in, hover, transitions)
+- **Design responsivo** mobile-first com SASS Modules
+- Componentes reutilizáveis com variantes (Button)
+- Página 404 customizada
 
-1. **Uso do Next.js**
+### Acessibilidade
+- Labels ARIA em elementos interativos
+- Navegação por teclado (Escape fecha o carrinho)
+- Contraste de cores adequado (WCAG)
+- Semântica HTML correta
 
-   - Utilize **Next.js** como o framework principal da aplicação.
-   - Aproveite os recursos do Next.js, como:
-     - **Renderização no Lado do Servidor (SSR)** e/ou **Geração de Sites Estáticos (SSG)** para otimizar o carregamento das páginas.
-     - **Rotas Dinâmicas** para páginas de detalhes dos NFTs.
-     - **Next.js API Routes** se necessário para funcionalidades adicionais.
-     - **Otimização de Imagens** com o componente `next/image`.
-     - **Importação Dinâmica** para carregamento otimizado de componentes pesados.
+### Testes
+- **Jest** com React Testing Library para testes unitários
+- **Playwright** para testes E2E (end-to-end)
+- Testes unitários do cartSlice (reducers e selectors)
+- Testes de componente NFTCard e CartDrawer
+- MSW para mock de chamadas API
+- Cobertura mínima configurada: 50%
 
-2. **Interface do Usuário**
+## Tech Stack
 
-   - Implemente o design fornecido no link do **Figma**:
-     - [Figma Design](https://www.figma.com/design/j9HHfWPPoLyObtlVBeMhTD/Front-end-Challenge?node-id=0-1&t=sWwJ0qlYdwzJHKyJ-0)
-   - Siga fielmente o design e as especificações fornecidas.
-   - Garanta que a aplicação seja **responsiva** e funcione bem em diferentes tamanhos de tela.
-   - Implemente navegação entre as páginas utilizando o sistema de roteamento do Next.js.
+| Tecnologia | Versão | Propósito |
+|------------|--------|-----------|
+| [Next.js](https://nextjs.org/) | 16.1.6 | Framework React com App Router |
+| [React](https://react.dev/) | 19.2.4 | Biblioteca de UI |
+| [TypeScript](https://www.typescriptlang.org/) | 5.9.3 | Tipagem estática |
+| [Redux Toolkit](https://redux-toolkit.js.org/) | 2.11.2 | Gerenciamento de estado global |
+| [TanStack Query](https://tanstack.com/query) | 5.90.20 | Data fetching e cache |
+| [Framer Motion](https://www.framer.com/motion/) | 12.29.2 | Animações declarativas |
+| [SASS](https://sass-lang.com/) | 1.97.3 | Estilização modular (CSS Modules) |
+| [Jest](https://jestjs.io/) | 30.2.0 | Testes unitários e de componente |
+| [Playwright](https://playwright.dev/) | 1.50.x | Testes E2E cross-browser |
+| [MSW](https://mswjs.io/) | 2.12.7 | Mock Service Worker para testes |
+| [Docker](https://www.docker.com/) | - | Containerização multi-stage |
 
-3. **Gerenciamento de Estado**
+## Início Rápido
 
-   - Utilize **Redux** ou **Redux Toolkit** para gerenciar o estado global da aplicação.
-   - Configure a store do Redux e implemente os reducers necessários.
-   - Gerencie estados como itens no carrinho,
+### Pré-requisitos
 
-4. **Busca de Dados**
+- Node.js 18+
+- npm ou yarn
+- Docker (opcional)
 
-   - Use **React Query** para buscar e sincronizar dados da API.
-   - A API está documentada em:
-     - [Starsoft Challenge API Docs](https://starsoft-challenge-7dfd4a56a575.herokuapp.com/v1/docs)
-   - Implemente chamadas para obter a lista de NFTs, detalhes dos itens, etc.
-   - Utilize o **Data Fetching** do Next.js (`getStaticProps`, `getServerSideProps`) conforme adequado.
-   - Trate os estados de **loading**, **sucesso** e **erro** nas requisições.
+### Instalação
 
-5. **Animações e Interações**
+```bash
+# Clone o repositório
+git clone https://github.com/LGustavos/starsoft-frontend-challenge.git
+cd starsoft-frontend-challenge
 
-   - Utilize **Framer Motion** para adicionar animações e interações conforme necessário.
-   - Garanta que as animações sejam suaves e contribuam para a experiência do usuário.
-   - Implemente animações em transições de página, hover em botões e cards, entre outros.
+# Instale as dependências
+npm install
 
-6. **Estilização**
+# Copie o arquivo de variáveis de ambiente
+cp .env.local.example .env.local
 
-   - Use **SASS** ou **Styled Components** para estilizar a aplicação.
-   - Organize os estilos de maneira modular e reutilizável.
-   - Siga as boas práticas de organização de arquivos e componentes.
-   - Garanta a consistência visual em toda a aplicação.
+# Inicie o servidor de desenvolvimento
+npm run dev
+```
 
-7. **Configuração com Docker**
+Acesse [http://localhost:3000](http://localhost:3000)
 
-   - Configure o ambiente de desenvolvimento utilizando **Docker** e **Docker Compose**.
-   - Crie um arquivo `Dockerfile` para a aplicação Next.js.
-   - Crie um arquivo `docker-compose.yml` para orquestrar os serviços necessários.
-   - A aplicação deve ser iniciada com um único comando (`docker-compose up`).
-   - Documente quaisquer configurações específicas necessárias.
+### Com Docker
 
-8. **Boas Práticas de Código**
+```bash
+# Desenvolvimento
+docker-compose up
 
-   - Aplique os princípios de **Clean Code** em toda a sua implementação.
-   - Utilize um padrão de código consistente e configure **ESLint** e **Prettier** no projeto.
-   - Documente o código quando necessário para melhorar a legibilidade.
-   - Utilize os recursos do **Next.js** para otimização, como importação dinâmica e otimização de imagens.
+# Ou construa a imagem de produção
+docker build -t nft-marketplace .
+docker run -p 3000:3000 nft-marketplace
+```
 
-9. **Testes**
+### Variáveis de Ambiente
 
-   - Escreva testes unitários e/ou de integração para as principais funcionalidades da aplicação utilizando **Jest** e **React Testing Library**.
-   - Os testes devem cobrir, no mínimo, os componentes principais e funcionalidades críticas.
-   - Garanta que todos os testes passem antes de enviar o projeto.
+Crie um arquivo `.env.local` baseado no `.env.local.example`:
 
-### Diferenciais (Desejável)
+| Variável | Descrição | Padrão |
+|----------|-----------|--------|
+| `NEXT_PUBLIC_API_URL` | URL base da API | `https://api-challenge.starsoft.games/api/v1` |
+| `NEXT_PUBLIC_ENABLE_ANIMATIONS` | Habilitar animações | `true` |
 
-- **TypeScript**
+## Scripts Disponíveis
 
-  - Utilize **TypeScript** para adicionar tipagem estática ao seu código, aumentando a robustez e manutenção do projeto.
+| Comando | Descrição |
+|---------|-----------|
+| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Compila para produção |
+| `npm run start` | Inicia o servidor de produção |
+| `npm run lint` | Executa o ESLint |
+| `npm run lint:fix` | Corrige problemas do ESLint |
+| `npm run format` | Formata código com Prettier |
+| `npm run test` | Executa os testes unitários |
+| `npm run test:watch` | Executa testes em modo watch |
+| `npm run test:coverage` | Gera relatório de cobertura |
+| `npm run test:e2e` | Executa testes E2E com Playwright |
+| `npm run test:e2e:ui` | Abre Playwright UI mode |
+| `npm run docker:dev` | Inicia com Docker Compose |
 
-- **SEO e Acessibilidade**
+## Estrutura do Projeto
 
-  - Implemente boas práticas de **SEO** e **acessibilidade** na aplicação.
-  - Utilize o componente `next/head` para manipulação de meta tags.
-  - Otimize a performance da aplicação seguindo as recomendações do **Lighthouse**.
+```
+src/
+├── app/                    # App Router (páginas)
+│   ├── page.tsx            # Home - Listagem de NFTs
+│   ├── nft/[id]/           # Página de detalhes do NFT
+│   └── layout.tsx          # Layout raiz com providers
+├── components/
+│   ├── ui/                 # Componentes atômicos (Button, etc.)
+│   ├── layout/             # Header, Footer
+│   ├── nft/                # NFTCard, NFTGrid, NFTDetail
+│   └── cart/               # CartDrawer, CartItem
+├── lib/
+│   ├── store/              # Redux store e slices
+│   ├── query/              # TanStack Query config
+│   ├── api/                # Cliente da API
+│   └── utils/              # Funções utilitárias
+├── hooks/                  # Hooks customizados
+├── styles/
+│   ├── abstracts/          # Variáveis, mixins, breakpoints
+│   └── base/               # Reset, tipografia
+└── types/                  # Definições TypeScript
+```
 
-## Entrega
+## Decisões Técnicas
 
-- O código deve estar disponível em um repositório Git (preferencialmente **GitHub**) público.
-- Inclua um arquivo `README.md` com:
-  - Instruções claras sobre como configurar e executar a aplicação.
-  - Descrição das funcionalidades implementadas.
-  - Tecnologias utilizadas e justificativas de escolhas técnicas.
-  - Possíveis limitações ou melhorias futuras.
-- Certifique-se de que o histórico de commits reflita o andamento do desenvolvimento, com mensagens claras e objetivas.
+### Renderização (SSR vs SSG)
 
-## Avaliação
+| Página | Estratégia | Justificativa |
+|--------|------------|---------------|
+| Home (`/`) | ISR (60s) | Lista de NFTs pode mudar, revalida periodicamente |
+| Detalhe (`/nft/[id]`) | SSG + ISR | Pré-renderiza NFTs conhecidos, fallback para novos |
+| Cart Drawer | Client-only | Estado específico do usuário, sem valor para SEO |
 
-Os seguintes aspectos serão considerados na avaliação:
+### Estado Global
 
-- **Uso do Next.js**: Aproveitamento adequado dos recursos e features do Next.js na aplicação.
-- **Fidelidade ao Design**: A interface deve ser fiel ao design fornecido no Figma.
-- **Funcionalidade**: A aplicação deve estar funcional e todas as interações devem estar implementadas corretamente.
-- **Gerenciamento de Estado**: O uso de Redux para gerenciamento de estado deve ser eficiente e bem estruturado.
-- **Busca de Dados**: A integração com a API usando React Query e Next.js deve ser feita corretamente.
-- **Animações e Interações**: As animações devem ser suaves e bem integradas na experiência do usuário.
-- **Código Limpo**: O código deve ser limpo, seguindo boas práticas de desenvolvimento e princípios de Clean Code.
-- **Estilização**: A aplicação deve ser estilizada usando SASS de forma modular e reutilizável.
-- **Testes**: Qualidade e abrangência dos testes implementados.
-- **Configuração com Docker**: A configuração do ambiente de desenvolvimento utilizando Docker e Docker Compose deve ser clara e funcional.
-- **Documentação**: Clareza das instruções e documentação fornecidas no `README.md`.
-- **Histórico de Commits**: Uso adequado do Git com commits bem descritos.
+- **Redux Toolkit** para o carrinho de compras com middleware de persistência no localStorage
+- **TanStack Query** para cache e sincronização de dados da API
+
+### Estilização
+
+- **SASS Modules** para escopo de estilos por componente
+- **Design tokens** extraídos do Figma para consistência visual
+- Abordagem **Mobile-first** com breakpoints responsivos
+
+### Performance
+
+- **Dynamic imports** para Framer Motion e DevTools
+- **next/image** com lazy loading e blur placeholder
+- **React.memo** em componentes de lista
+- **Infinite scroll** com Intersection Observer
+
+## API
+
+A aplicação consome a API Starsoft:
+- Base URL: `https://api-challenge.starsoft.games/api/v1`
+- Documentação: [API Docs](https://starsoft-challenge-7dfd4a56a575.herokuapp.com/v1/docs)
+
+### Endpoints Utilizados
+
+| Método | Endpoint | Descrição |
+|--------|----------|-----------|
+| GET | `/products` | Lista NFTs com paginação |
+| GET | `/products/:id` | Detalhes de um NFT |
+
+## Testes
+
+### Testes Unitários (Jest)
+
+```bash
+# Executar testes unitários
+npm test
+
+# Com cobertura
+npm run test:coverage
+
+# Modo watch
+npm run test:watch
+```
+
+### Testes E2E (Playwright)
+
+```bash
+# Executar testes E2E
+npm run test:e2e
+
+# Modo UI interativo
+npm run test:e2e:ui
+
+# Executar em browser específico
+npx playwright test --project=chromium
+```
+
+### Cobertura de Testes Unitários
+
+- **cartSlice**: Todos os reducers e selectors (addItem, removeItem, incrementQuantity, decrementQuantity, clearCart)
+- **NFTCard**: Renderização, interação com carrinho, acessibilidade
+- **CartDrawer**: Checkout flow, loading states, success feedback
+- **Mocks configurados**: next/navigation, next/image, framer-motion
+- **Threshold mínimo**: 50% para branches, functions, lines e statements
+
+### Cobertura de Testes E2E
+
+- **Home Page**: Carregamento de NFTs, infinite scroll
+- **Carrinho**: Adicionar/remover itens, checkout completo
+- **Navegação**: Fluxo entre páginas, responsividade
+
+## Design
+
+- **Figma**: [Front-end Challenge](https://www.figma.com/design/j9HHfWPPoLyObtlVBeMhTD/Front-end-Challenge)
+
+### Paleta de Cores
+
+| Cor | Hex | Uso |
+|-----|-----|-----|
+| Primary | `#FF6E30` | Botões, CTAs |
+| Background | `#222222` | Fundo da página |
+| Surface | `#191A20` | Cards |
+| Border | `#393939` | Bordas |
+| Text Primary | `#FFFFFF` | Texto principal |
+| Text Secondary | `#CCCCCC` | Texto secundário |
+
+## Acessibilidade
+
+- Navegação por teclado
+- Labels ARIA em elementos interativos
+- Contraste de cores adequado
+- Semântica HTML correta
+
+## Arquitetura
+
+### Providers
+A aplicação utiliza uma arquitetura de providers para injeção de dependências:
+
+```
+RootLayout
+└── StoreProvider (Redux)
+    └── QueryProvider (TanStack Query)
+        └── HydrationBoundary
+            └── App Components
+```
+
+### Custom Hooks
+| Hook | Responsabilidade |
+|------|------------------|
+| `useCart` | Gerenciamento do carrinho (add, remove, quantity) |
+| `useNFTs` | Listagem com infinite query e paginação |
+| `useNFT` | Fetch de NFT individual por ID |
+
+### Middleware de Persistência
+O estado do carrinho é automaticamente sincronizado com localStorage através de um middleware Redux customizado, garantindo que os itens do carrinho persistam entre sessões.
+
+## Melhorias Futuras
+
+- [ ] Autenticação de usuário
+- [ ] Favoritos / Wishlist
+- [ ] Filtros e busca de NFTs
+- [ ] Integração com carteira Web3
+- [x] Testes E2E com Playwright
+- [ ] PWA com Service Worker
+
+## Licença
+
+MIT
 
 ---
 
-Boa sorte! Estamos ansiosos para conhecer o seu trabalho e potencial.
-
+Desenvolvido com 💜 para o desafio Starsoft
