@@ -14,7 +14,8 @@ export const Header = memo(function Header() {
     setMounted(true);
   }, []);
 
-  const displayCount = mounted ? (count > 99 ? '99+' : count) : 0;
+  const displayCount = mounted ? count : 0;
+  const displayCountText = displayCount > 99 ? '99+' : displayCount;
 
   return (
     <header className={styles.header}>
@@ -32,7 +33,7 @@ export const Header = memo(function Header() {
         <button
           className={styles.cartButton}
           onClick={toggle}
-          aria-label={`Abrir carrinho com ${count} ${count === 1 ? 'item' : 'itens'}`}
+          aria-label={`Abrir carrinho com ${displayCount} ${displayCount === 1 ? 'item' : 'itens'}`}
         >
           <Image
             src="/images/bag.svg"
@@ -41,7 +42,7 @@ export const Header = memo(function Header() {
             height={33}
             aria-hidden="true"
           />
-          <span className={styles.cartCount}>{displayCount}</span>
+          <span className={styles.cartCount}>{displayCountText}</span>
         </button>
       </div>
     </header>
