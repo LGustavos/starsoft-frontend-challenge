@@ -1,0 +1,26 @@
+@use '@/styles/abstracts' as *;
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60px;
+  margin-top: $spacing-12;
+  padding: 0 $spacing-4;
+
+  @include respond-to('md') {
+    height: 76px;
+    margin-top: $section-spacing;
+  }
+}
+
+.text {
+  font-size: $font-size-xs;
+  color: #FFFFFF70;
+  text-align: center;
+  margin: 0;
+
+  @include respond-to('md') {
+    font-size: $font-size-sm;
+  }
+}

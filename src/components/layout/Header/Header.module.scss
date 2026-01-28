@@ -1,0 +1,89 @@
+@use '@/styles/abstracts' as *;
+
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background-color: $color-background;
+  border-bottom: 1px solid #FFFFFF36;
+  z-index: $z-index-sticky;
+
+  @include respond-to('md') {
+    height: $header-height;
+  }
+}
+
+.container {
+  @include flex-between;
+  max-width: $container-max-width;
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 $spacing-4;
+
+  @include respond-to('md') {
+    padding: 0 $spacing-6;
+  }
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+
+  img {
+    width: 80px;
+    height: auto;
+
+    @include respond-to('md') {
+      width: 101px;
+    }
+  }
+}
+
+.cartButton {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  padding: $spacing-2;
+  background: none;
+  border: none;
+  color: $color-text-primary;
+  cursor: pointer;
+  border-radius: $border-radius;
+  transition: background-color $transition-fast;
+
+  @include respond-to('md') {
+    gap: $spacing-2;
+  }
+
+  &:hover {
+    background-color: $color-surface-hover;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-primary;
+    outline-offset: 2px;
+  }
+
+  img {
+    width: 26px;
+    height: 26px;
+
+    @include respond-to('md') {
+      width: 33px;
+      height: 33px;
+    }
+  }
+}
+
+.cartCount {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+
+  @include respond-to('md') {
+    font-size: $font-size-base;
+  }
+}
