@@ -1,0 +1,50 @@
+@use '@/styles/abstracts' as *;
+
+.card {
+  background: $color-surface;
+  border-radius: $border-radius;
+  overflow: hidden;
+}
+
+.image {
+  aspect-ratio: 1;
+  @include skeleton;
+}
+
+.content {
+  padding: $spacing-4;
+}
+
+.title {
+  height: 24px;
+  width: 70%;
+  margin-bottom: $spacing-2;
+  @include skeleton;
+}
+
+.description {
+  height: 16px;
+  width: 100%;
+  margin-bottom: $spacing-2;
+  @include skeleton;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: $spacing-4;
+}
+
+.price {
+  height: 24px;
+  width: 80px;
+  @include skeleton;
+}
+
+.button {
+  height: 36px;
+  width: 100px;
+  border-radius: $border-radius;
+  @include skeleton;
+}
