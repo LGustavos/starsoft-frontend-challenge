@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'standalone',
@@ -10,7 +12,7 @@ const nextConfig = {
     ],
   },
   sassOptions: {
-    includePaths: ['./src/styles'],
+    includePaths: [path.join(__dirname, 'src/styles')],
   },
   // Improve development experience
   onDemandEntries: {
