@@ -1,0 +1,106 @@
+@use '@/styles/abstracts' as *;
+
+.card {
+  @include card-base;
+  display: flex;
+  flex-direction: column;
+  padding: $spacing-4;
+  width: 100%;
+  min-width: 0;
+
+  @include respond-to('md') {
+    padding: 24.5px;
+  }
+}
+
+.imageWrapper {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  background-color: $color-surface-hover;
+  border-radius: $border-radius;
+  margin-bottom: $spacing-6;
+
+  @include respond-to('md') {
+    margin-bottom: 49px;
+  }
+}
+
+.image {
+  object-fit: cover;
+  transition: transform $transition-normal;
+
+  .card:hover & {
+    transform: scale(1.05);
+  }
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 140%;
+  margin-bottom: $spacing-1;
+  color: #ffffff;
+  @include truncate-text(1);
+
+  @include respond-to('md') {
+    font-size: 18px;
+    margin-bottom: $spacing-2;
+  }
+}
+
+.description {
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.5;
+  color: #cccccc;
+  margin-bottom: $spacing-3;
+  min-height: calc(11px * 1.5 * 2);
+  @include truncate-text(2);
+
+  @include respond-to('md') {
+    font-size: 12px;
+    margin-bottom: $spacing-4;
+    min-height: calc(12px * 1.5 * 2);
+  }
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  gap: $spacing-1;
+  margin-bottom: $spacing-3;
+
+  @include respond-to('md') {
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+  }
+}
+
+.ethIcon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+
+  @include respond-to('md') {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.priceValue {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 110%;
+  color: #f0f0f0;
+
+  @include respond-to('md') {
+    font-size: 20px;
+  }
+}
