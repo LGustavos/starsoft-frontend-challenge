@@ -1,0 +1,69 @@
+{
+  "name": "starsoft-frontend-challenge",
+  "version": "1.0.0",
+  "description": "NFT Marketplace - Starsoft Frontend Challenge",
+  "private": true,
+  "scripts": {
+    "dev": "next dev --turbo",
+    "dev:webpack": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "lint:fix": "next lint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "docker:dev": "docker-compose up",
+    "docker:build": "docker build -t nft-marketplace .",
+    "docker:prod": "docker-compose -f docker-compose.prod.yml up"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LGustavos/starsoft-frontend-challenge.git"
+  },
+  "keywords": [
+    "nft",
+    "marketplace",
+    "nextjs",
+    "react",
+    "typescript",
+    "redux"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@reduxjs/toolkit": "^2.11.2",
+    "@tanstack/react-query": "^5.90.20",
+    "@tanstack/react-query-devtools": "^5.91.2",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.29.2",
+    "next": "^16.1.6",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "react-intersection-observer": "^10.0.2",
+    "react-redux": "^9.2.0",
+    "sass": "^1.97.3"
+  },
+  "devDependencies": {
+    "@eslint/eslintrc": "^3.3.3",
+    "@playwright/test": "^1.58.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/jest": "^30.0.0",
+    "@types/node": "^25.0.10",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.5",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
+    "msw": "^2.12.7",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3"
+  }
+}
