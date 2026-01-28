@@ -1,0 +1,53 @@
+@use '@/styles/abstracts' as *;
+
+.main {
+  min-height: 100vh;
+  padding: $spacing-6;
+  padding-top: calc($header-height + $spacing-6);
+  max-width: 1200px;
+  margin: 0 auto;
+
+  @include respond-to('lg') {
+    padding: $spacing-8;
+    padding-top: calc($header-height + $spacing-8);
+  }
+}
+
+// Skeleton styles
+.skeleton {
+  display: grid;
+  gap: $spacing-8;
+
+  @include respond-to('lg') {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.skeletonImage {
+  aspect-ratio: 1;
+  border-radius: $border-radius-lg;
+  @include skeleton;
+}
+
+.skeletonContent {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-4;
+}
+
+.skeletonTitle {
+  height: 40px;
+  width: 60%;
+  @include skeleton;
+}
+
+.skeletonDescription {
+  height: 100px;
+  @include skeleton;
+}
+
+.skeletonPrice {
+  height: 32px;
+  width: 150px;
+  @include skeleton;
+}
