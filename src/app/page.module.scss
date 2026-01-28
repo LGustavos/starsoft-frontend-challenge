@@ -1,0 +1,46 @@
+@use '@/styles/abstracts' as *;
+
+.main {
+  min-height: 100vh;
+  padding: $spacing-4;
+  padding-top: calc($header-height + $spacing-8);
+  padding-bottom: 0;
+  max-width: $container-max-width;
+  margin: 0 auto;
+
+  @include respond-to('sm') {
+    padding: $spacing-6;
+    padding-top: calc($header-height + $spacing-12);
+    padding-bottom: 0;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+    padding-top: calc($header-height + 100px);
+    padding-bottom: 0;
+  }
+
+  @include respond-to('lg') {
+    padding: 136.5px;
+    padding-top: calc($header-height + $section-spacing);
+    padding-bottom: 0;
+  }
+}
+
+.skeletonGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+
+  @include respond-to('sm') {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @include respond-to('lg') {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include respond-to('xl') {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
