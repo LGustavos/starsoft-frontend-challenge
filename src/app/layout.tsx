@@ -18,6 +18,9 @@ export const metadata: Metadata = {
   },
   description: 'Descubra, colecione e negocie NFTs únicos no nosso marketplace.',
   keywords: ['NFT', 'marketplace', 'digital art', 'crypto', 'blockchain', 'Starsoft'],
+  icons: {
+    icon: '/images/logo.svg',
+  },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
