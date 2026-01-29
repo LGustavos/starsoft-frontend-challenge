@@ -2,10 +2,6 @@
 
 Um marketplace de NFTs responsivo e interativo desenvolvido com Next.js, TypeScript, Redux Toolkit e TanStack Query.
 
-## Demonstração
-
-![NFT Marketplace Preview](./docs/preview.png)
-
 ## Funcionalidades
 
 ### Carrinho de Compras
