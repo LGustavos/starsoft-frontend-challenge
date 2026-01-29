@@ -58,7 +58,7 @@ Um marketplace de NFTs responsivo e interativo desenvolvido com Next.js, TypeScr
 | [Framer Motion](https://www.framer.com/motion/) | 12.29.2 | Animações declarativas |
 | [SASS](https://sass-lang.com/) | 1.97.3 | Estilização modular (CSS Modules) |
 | [Jest](https://jestjs.io/) | 30.2.0 | Testes unitários e de componente |
-| [Playwright](https://playwright.dev/) | 1.50.x | Testes E2E cross-browser |
+| [Playwright](https://playwright.dev/) | 1.58.0 | Testes E2E cross-browser |
 | [MSW](https://mswjs.io/) | 2.12.7 | Mock Service Worker para testes |
 | [Docker](https://www.docker.com/) | - | Containerização multi-stage |
 
@@ -107,24 +107,28 @@ Crie um arquivo `.env.local` baseado no `.env.local.example`:
 | Variável | Descrição | Padrão |
 |----------|-----------|--------|
 | `NEXT_PUBLIC_API_URL` | URL base da API | `https://api-challenge.starsoft.games/api/v1` |
-| `NEXT_PUBLIC_ENABLE_ANIMATIONS` | Habilitar animações | `true` |
 
 ## Scripts Disponíveis
 
 | Comando | Descrição |
 |---------|-----------|
-| `npm run dev` | Inicia o servidor de desenvolvimento |
+| `npm run dev` | Inicia o servidor de desenvolvimento (Turbopack) |
+| `npm run dev:webpack` | Inicia o servidor de desenvolvimento (Webpack) |
 | `npm run build` | Compila para produção |
 | `npm run start` | Inicia o servidor de produção |
 | `npm run lint` | Executa o ESLint |
 | `npm run lint:fix` | Corrige problemas do ESLint |
 | `npm run format` | Formata código com Prettier |
+| `npm run format:check` | Verifica formatação do código |
 | `npm run test` | Executa os testes unitários |
 | `npm run test:watch` | Executa testes em modo watch |
 | `npm run test:coverage` | Gera relatório de cobertura |
 | `npm run test:e2e` | Executa testes E2E com Playwright |
 | `npm run test:e2e:ui` | Abre Playwright UI mode |
-| `npm run docker:dev` | Inicia com Docker Compose |
+| `npm run test:e2e:headed` | Executa testes E2E com navegador visível |
+| `npm run docker:dev` | Inicia com Docker Compose (desenvolvimento) |
+| `npm run docker:build` | Constrói imagem Docker |
+| `npm run docker:prod` | Inicia com Docker Compose (produção) |
 
 ## Estrutura do Projeto
 
@@ -135,9 +139,9 @@ src/
 │   ├── nft/[id]/           # Página de detalhes do NFT
 │   └── layout.tsx          # Layout raiz com providers
 ├── components/
-│   ├── ui/                 # Componentes atômicos (Button, etc.)
+│   ├── ui/                 # Componentes atômicos (Button, EthIcon)
 │   ├── layout/             # Header, Footer
-│   ├── nft/                # NFTCard, NFTGrid, NFTDetail
+│   ├── nft/                # NFTCard, NFTGrid, NFTDetail, NFTSkeleton
 │   └── cart/               # CartDrawer, CartItem
 ├── lib/
 │   ├── store/              # Redux store e slices
@@ -222,17 +226,22 @@ npx playwright test --project=chromium
 
 ### Cobertura de Testes Unitários
 
-- **cartSlice**: Todos os reducers e selectors (addItem, removeItem, incrementQuantity, decrementQuantity, clearCart)
+- **cartSlice**: Todos os reducers e selectors (addItem, removeItem, updateQuantity, incrementQuantity, decrementQuantity, clearCart, toggleCart, openCart, closeCart)
 - **NFTCard**: Renderização, interação com carrinho, acessibilidade
 - **CartDrawer**: Checkout flow, loading states, success feedback
+- **Header**: Renderização, contador do carrinho
+- **Footer**: Renderização
+- **NFTSkeleton**: Renderização de skeleton loaders
 - **Mocks configurados**: next/navigation, next/image, framer-motion
 - **Threshold mínimo**: 50% para branches, functions, lines e statements
 
 ### Cobertura de Testes E2E
 
-- **Home Page**: Carregamento de NFTs, infinite scroll
-- **Carrinho**: Adicionar/remover itens, checkout completo
-- **Navegação**: Fluxo entre páginas, responsividade
+- **Home Page** (`home.spec.ts`): Carregamento de NFTs, exibição de cards, botões de compra, infinite scroll
+- **Carrinho** (`cart.spec.ts`): Abrir/fechar drawer, adicionar itens, contador, checkout flow completo (loading, success, clear)
+- **Navegação** (`navigation.spec.ts`): Fluxo entre páginas, página de detalhes, persistência de estado, página 404
+- **Responsividade**: Viewports mobile (375px), tablet (768px) e desktop (1440px)
+- **Acessibilidade**: Hierarquia de headings, labels de botões, atributos ARIA, navegação por teclado
 
 ## Design
 
@@ -308,13 +317,12 @@ src/
 │   │   └── Footer/              # Rodapé
 │   ├── nft/                     # Domínio NFT
 │   │   ├── NFTCard/             # Card individual com animações
+│   │   ├── NFTDetail/           # Página de detalhes
 │   │   ├── NFTGrid/             # Grid com infinite scroll
-│   │   ├── NFTSkeleton/         # Skeleton loader
-│   │   └── NFTDetail/           # Página de detalhes
-│   ├── cart/                    # Domínio Carrinho
-│   │   ├── CartDrawer/          # Drawer lateral animado
-│   │   └── CartItem/            # Item do carrinho
-│   └── animations/              # Componentes de animação
+│   │   └── NFTSkeleton/         # Skeleton loader
+│   └── cart/                    # Domínio Carrinho
+│       ├── CartDrawer/          # Drawer lateral animado
+│       └── CartItem/            # Item do carrinho
 │
 ├── hooks/                       # Hooks customizados
 │   ├── useCart.ts              # Gerenciamento do carrinho
@@ -346,6 +354,7 @@ src/
 │   │   ├── _reset.scss
 │   │   └── _typography.scss
 │   └── abstracts/             # Design tokens
+│       ├── _index.scss        # Entry point dos abstracts
 │       ├── _variables.scss    # Cores, espaçamentos, etc.
 │       ├── _mixins.scss       # Mixins SCSS
 │       └── _breakpoints.scss  # Media queries
@@ -374,10 +383,13 @@ src/
 |--------|-----------|
 | `addItem(nft)` | Adiciona ou incrementa NFT |
 | `removeItem(id)` | Remove NFT do carrinho |
+| `updateQuantity({ id, quantity })` | Define quantidade específica |
 | `incrementQuantity(id)` | Incrementa quantidade |
 | `decrementQuantity(id)` | Decrementa quantidade |
 | `clearCart()` | Limpa o carrinho |
 | `toggleCart()` | Alterna visibilidade do drawer |
+| `openCart()` | Abre o drawer do carrinho |
+| `closeCart()` | Fecha o drawer do carrinho |
 
 **Selectors otimizados:**
 | Selector | Retorno |
@@ -387,6 +399,7 @@ src/
 | `selectCartCount` | Quantidade total |
 | `selectIsCartOpen` | Estado do drawer |
 | `selectIsItemInCart(id)` | Verifica se NFT está no carrinho |
+| `selectItemQuantity(id)` | Quantidade do item no carrinho |
 
 #### TanStack Query (Estado do Servidor)
 
@@ -411,9 +424,11 @@ nftKeys = {
 
 | Hook | Responsabilidade | Retorno |
 |------|------------------|---------|
-| `useCart()` | Gerenciamento completo do carrinho | `{ items, total, count, addItem, removeItem, ... }` |
-| `useNFTs(rows)` | Lista com infinite scroll | `{ data, fetchNextPage, hasNextPage, isLoading }` |
-| `useNFT(id)` | Fetch de NFT individual | `{ data, isLoading, error }` |
+| `useCart()` | Gerenciamento completo do carrinho | `{ items, total, count, isOpen, add, remove, setQuantity, increment, decrement, clear, toggle, open, close, isInCart, getQuantity }` |
+| `useNFTs(limit)` | Lista com infinite scroll | `{ data, fetchNextPage, hasNextPage, isLoading, ... }` |
+| `useNFT(id)` | Fetch de NFT individual | `{ data, isLoading, error, ... }` |
+| `useIsItemInCart(id)` | Verifica se item está no carrinho | `boolean` |
+| `useItemQuantity(id)` | Quantidade do item no carrinho | `number` |
 
 ### Middleware de Persistência
 
@@ -426,7 +441,7 @@ const STORAGE_KEY = 'nft-marketplace:cart:v2';
 // Dados persistidos
 {
   items: CartItem[],
-  updatedAt: string  // ISO timestamp
+  updatedAt: number  // Unix timestamp (Date.now())
 }
 ```
 
